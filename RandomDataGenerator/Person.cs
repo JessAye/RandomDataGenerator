@@ -1,23 +1,38 @@
 using System.Security.Cryptography;
 using System.Threading.Channels;
+using System.Collections;
 
 namespace RandomDataGenerator;
 
 public class Person
 {
-    Random rand = new Random();
-
+    protected Random rand = new Random();
+    
+    protected string firstName;
+    protected Enum lastName;
+    protected DateTime birthDate;
+    protected double age;
+    protected SSN ssNum;
+    protected Phone phoneNumber;
+    private List<Person> dependents = new List<Person>();
+    
     private string[] _arrayOfFirstNames = new String[10]
         { "Roy", "Craig", "Rose", "Milton", "Peter", "Brian", "Hugh", "Greg", "Sam", "Fred" };
 
-    public string firstName;
-    public Enum lastName;
-    public DateTime birthDate;
-    public double age;
-    public SSN ssNum;
-    public Phone phoneNumber;
-    //public Person[] Dependents;
+    public Person()
+    {
+        
+        firstName = _arrayOfFirstNames[rand.Next(0, _arrayOfFirstNames.Length - 1)];
+        lastName= (LastNames) rand.Next(Enum.GetNames(typeof(LastNames)).Length);
+        birthDate = RandomDate();
+        age = DateTime.Today.Year - birthDate.Year;
+        ssNum = new SSN();
+        phoneNumber = new Phone();
+        int amountOfChildern = rand.Next(1, 1);
+        
+    }
 
+   
 
     public override string ToString()
     {
@@ -28,21 +43,37 @@ public class Person
             birthDate.ToString("MM/dd/yyyy"),
             ssNum,
             phoneNumber,
-            "Dependants");
-        //Dependents.Length);
+            dependents.Count);
+        
+    }
+    public virtual DateTime RandomDate()
+    {
+        Random rand = new Random();
+        DateTime currentDate = DateTime.Now;
+        int rndYear = rand.Next(1942, 2004);
+        int rndMonth = rand.Next(1, 12);
+        int rndDay = rand.Next(1, 28); // I hate this line of code so much
+        DateTime generateDate;
+        generateDate = new DateTime(rndYear, rndMonth, rndDay);
+        return generateDate;
     }
 
- 
+    public void AddDependents()
+    {
+        this.dependents.Add(new Dependent());
+    }
+
+
     public string FirstName
     {
         get { return firstName; }
         init { firstName = value; }
     }
 
-    public string LastName
+    public Enum LastName
     {
-        get { return firstName; }
-        init { firstName = value; }
+        get { return lastName; }
+        init { lastName = value; }
     }
 
     public DateTime BirthDate
@@ -67,6 +98,10 @@ public class Person
     {
         get { return ssNum; }
         init { ssNum = value; }
+    }
+    public List<Person> Dependents{
+        get { return dependents; }
+        init { dependents = value; }
     }
 
     public string[] ArrayOfFirstNames
