@@ -26,38 +26,63 @@ public class RandomDataGenerator
             "5.Get a random SSN\n" +
             "6.Get a random Phone Number with your separator\n" +
             "7. Exit");
-        var userInput = Int32.Parse(Console.ReadLine());
-        switch (userInput)
+        try
         {
-            case 1:
-                CreatePersons(listOfPersons);
-                break;
-            case 2:
-                ViewList(listOfPersons);
-                break;
-            case 3:
-                DeletePerson(listOfPersons);
-                break;
-            case 4:
-                Random rand = new Random();
-                Console.WriteLine((LastNames) rand.Next(Enum.GetNames(typeof(LastNames)).Length));
-                break;
-            case 5:
-                Console.WriteLine(new SSN());
-                break;
-            case 6:
-                Console.WriteLine("Select your separator");//FINISH THIS JESS  YOU DIDNT FINISH IT LAST NIGHT
-                string userPhoneInput = Console.ReadLine();
-                Phone randomPhone = new Phone();
-                string[] words = randomPhone.ToString().Split('-');
-                Console.WriteLine($"{words[0]}{userPhoneInput}{words[1]}{userPhoneInput}{words[2]}");
-                break;
-            case 7:
-                System.Environment.Exit(0);
-                break;
-            default:
-                // code block
-                break;
+            var userInput = Int32.Parse(Console.ReadLine());
+            switch (userInput)
+            {
+                case 1:
+                    CreatePersons(listOfPersons);
+                    break;
+                case 2:
+
+
+                    if (listOfPersons.Count == 0)
+                    {
+                        Console.WriteLine("No Person(s) Exist in the list");
+                    }
+                    else
+                    {
+                        ViewList(listOfPersons);
+                    }
+
+                    break;
+                case 3:
+                    if (listOfPersons.Count == 0)
+                    {
+                        Console.WriteLine("No Person(s) Exist in the list");
+                    }
+                    else
+                    {
+                        DeletePerson(listOfPersons);
+                    }
+
+                    break;
+                case 4:
+                    Random rand = new Random();
+                    Console.WriteLine((LastNames)rand.Next(Enum.GetNames(typeof(LastNames)).Length));
+                    break;
+                case 5:
+                    Console.WriteLine(new SSN());
+                    break;
+                case 6:
+                    Console.WriteLine("Select your separator"); 
+                    string userPhoneInput = Console.ReadLine();
+                    Phone randomPhone = new Phone();
+                    string[] words = randomPhone.ToString().Split('-');
+                    Console.WriteLine($"{words[0]}{userPhoneInput}{words[1]}{userPhoneInput}{words[2]}");
+                    break;
+                case 7:
+                    System.Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Please Enter an Integer 1-7");
+                    break;
+            }
+        }
+        catch (System.FormatException e)
+        {
+            Console.WriteLine("Please Enter a valid Integer\n");
         }
     }
 
@@ -94,10 +119,11 @@ public class RandomDataGenerator
         Console.WriteLine("Who would you like to delete");
         for (int i = 0; i < arrayList.Count; i++)
         {
-            Console.WriteLine($"{i+1}. {arrayList[i].FirstName} {arrayList[i].LastName}");
+            Console.WriteLine($"{i + 1}. {arrayList[i].FirstName} {arrayList[i].LastName}");
         }
+
         Console.WriteLine("Delete Number: ");
         var userInput = Int32.Parse(Console.ReadLine());
-        arrayList.RemoveAt(userInput-1);
+        arrayList.RemoveAt(userInput - 1);
     }
 }
