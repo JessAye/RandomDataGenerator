@@ -16,7 +16,7 @@ public class Dependent : Person
         age = DateTime.Today.Year - birthDate.Year;
         ssNum = new SSN();
         phoneNumber = new Phone();
-        int amountOfChildern = rand.Next(1, 1);
+      
     }
 
     public override string ToString()
