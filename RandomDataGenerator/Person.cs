@@ -27,13 +27,13 @@ public class Person
         age = DateTime.Today.Year - birthDate.Year;
         ssNum = new SSN();
         phoneNumber = new Phone();
-        int amountOfChildern = rand.Next(1, 1);
+      
     }
 
 
     public override string ToString()
     {
-        return string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}",
+        return string.Format("First Name:{0}\n Last Name: {1}\nAge: {2}\nBirthday: {3}\nSocial Security: {4}\nPhone Number: {5}\nNumber of Children: {6}\n",
             firstName,
             lastName,
             age,
