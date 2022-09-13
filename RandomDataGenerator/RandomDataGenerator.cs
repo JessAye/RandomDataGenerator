@@ -6,56 +6,98 @@ public class RandomDataGenerator
 {
     static public void Main(String[] args)
     {
-        ArrayList listOfPersons = new ArrayList();
-        Console.WriteLine("How many people: ");
-        
-        int userInput =Int32.Parse(Console.ReadLine());
-        
-        listOfPersons = CreatePerson(userInput, listOfPersons);
-
-        //PrintList(listOfPersons);
-    }
-
-    private static ArrayList CreatePerson(int userInput, ArrayList arrayList)
-    {
-        for (int i = 0; i < userInput; i++)
+        var done = false;
+        List<Person> listOfPersons = new List<Person>();
+        do
         {
-            Random rand = new Random();
-            Person person = new Person();
-            person.firstName = person.ArrayOfFirstNames[rand.Next(0, person.ArrayOfFirstNames.Length - 1)];
-            person.lastName= (LastNames) rand.Next(Enum.GetNames(typeof(LastNames)).Length);
-            person.birthDate = RandomAdultDate();
-            person.age = DateTime.Today.Year - person.birthDate.Year;
-            person.ssNum = new SSN();
-            person.phoneNumber = new Phone();
-            arrayList.Add(person);
-            Console.WriteLine(person.ToString());
-        }    
-        return arrayList;
+            Menu(listOfPersons);
+        } while (!done); // not really a point in breaking the loop
+    }
 
-    }
-    private static DateTime RandomAdultDate()
+
+    public static void Menu(List<Person> listOfPersons)
     {
-        Random rand = new Random();
-        DateTime currentDate = DateTime.Now;
-        int rndYear = rand.Next(1942, 2004);
-        int rndMonth = rand.Next(1, 12);
-        int rndDay = rand.Next(1, 31);
-        DateTime generateDate = new DateTime(rndYear, rndMonth, rndDay);
-        return generateDate;
-    }
-    static void PrintList(ArrayList list)
-    {
-        foreach (Person person in list)
+        Console.WriteLine(
+            "What would you like to do?\n" +
+            "1.Create n Person(s)\n" +
+            "2.View all Persons in the List\n" +
+            "3.Delete Person From List\n" +
+            "4.Get a random Last Name\n" +
+            "5.Get a random SSN\n" +
+            "6.Get a random Phone Number with your separator\n" +
+            "7. Exit");
+        var userInput = Int32.Parse(Console.ReadLine());
+        switch (userInput)
         {
-            Console.WriteLine(person.FirstName);
-            Console.WriteLine(person.LastName);
-            Console.WriteLine(person.BirthDate);
-            Console.WriteLine(person.Age);
-            Console.WriteLine(person.SSNUM);
-            Console.WriteLine(person.PhoneNumber);
+            case 1:
+                CreatePersons(listOfPersons);
+                break;
+            case 2:
+                ViewList(listOfPersons);
+                break;
+            case 3:
+                DeletePerson(listOfPersons);
+                break;
+            case 4:
+                Random rand = new Random();
+                Console.WriteLine((LastNames) rand.Next(Enum.GetNames(typeof(LastNames)).Length));
+                break;
+            case 5:
+                Console.WriteLine(new SSN());
+                break;
+            case 6:
+                Console.WriteLine("Select your separator");//FINISH THIS JESS  YOU DIDNT FINISH IT LAST NIGHT
+                string userPhoneInput = Console.ReadLine();
+                Phone randomPhone = new Phone();
+                string[] words = randomPhone.ToString().Split('-');
+                Console.WriteLine($"{words[0]}{userPhoneInput}{words[1]}{userPhoneInput}{words[2]}");
+                break;
+            case 7:
+                System.Environment.Exit(0);
+                break;
+            default:
+                // code block
+                break;
         }
     }
 
-  
+    private static List<Person> CreatePersons(List<Person> arrayList)
+    {
+        Console.WriteLine("How many people Would you Like to make?: ");
+        var userInput = Int32.Parse(Console.ReadLine());
+        for (int i = 0; i < userInput; i++)
+        {
+            Random amountOfKids = new Random();
+            Person person = new Person();
+            for (int j = 0; j < amountOfKids.Next(0, 5); j++)
+            {
+                person.AddDependents();
+            }
+
+            arrayList.Add(person);
+        }
+
+        Console.WriteLine(userInput + " Person(s) created");
+        return arrayList;
+    }
+
+    private static void ViewList(List<Person> arrayList)
+    {
+        foreach (var person in arrayList)
+        {
+            Console.WriteLine((person).ToString());
+        }
+    }
+
+    private static void DeletePerson(List<Person> arrayList)
+    {
+        Console.WriteLine("Who would you like to delete");
+        for (int i = 0; i < arrayList.Count; i++)
+        {
+            Console.WriteLine($"{i+1}. {arrayList[i].FirstName} {arrayList[i].LastName}");
+        }
+        Console.WriteLine("Delete Number: ");
+        var userInput = Int32.Parse(Console.ReadLine());
+        arrayList.RemoveAt(userInput-1);
+    }
 }
