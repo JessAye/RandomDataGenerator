@@ -1,0 +1,26 @@
+namespace RandomDataGenerator;
+
+public class SSN
+{
+    private string Number()
+    {
+        Random rng = new Random();
+        string number = string.Format("{0}{1}{2}-{3}{4}-{5}{6}{7}{8}",
+            rng.Next(9, 9), //for getting an invalid SSN
+            rng.Next(0, 9),
+            rng.Next(0, 9),
+            rng.Next(0, 0), //for getting an invalid SSN
+            rng.Next(0, 0), //for getting an invalid SSN
+            rng.Next(0, 9),
+            rng.Next(0, 9),
+            rng.Next(0, 9),
+            rng.Next(0, 9));
+        return number;
+    }
+
+    public override string ToString()
+    {
+        return Number();
+        ;
+    }
+}
