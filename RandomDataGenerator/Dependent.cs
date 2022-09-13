@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace RandomDataGenerator;
@@ -35,10 +35,23 @@ public class Dependent : Person
     public DateTime RandomDate()
     {
         Random rand = new Random();
-        int rndYear = rand.Next(2004, 2022);
-        int rndMonth = rand.Next(1, 12);
-        int rndDay = rand.Next(1, 28);
-        DateTime generateDate = new DateTime(rndYear, rndMonth, rndDay);
+        int randYear = rand.Next(2004, 2022);
+        int randMonth = rand.Next(1, 12);
+        int randDay;
+        if (randMonth == 2)
+        {
+            randDay = rand.Next(1, 28);
+        }
+        else if (randMonth % 2 == 0)
+        {
+            randDay = rand.Next(1, 30);
+        }
+        else
+        {
+            randDay = rand.Next(1, 31);
+        }
+
+        DateTime generateDate = new DateTime(randYear, randMonth, randDay);
         return generateDate;
     }
 }
